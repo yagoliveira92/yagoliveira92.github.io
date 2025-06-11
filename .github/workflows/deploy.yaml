@@ -24,7 +24,7 @@ jobs:
 
       # 3. Faz o upload do artefato (nossa página estática)
       - name: Upload do Artefato
-        uses: actions/upload-pages-artifact@v4
+        uses: actions/upload-artifact@v4
         with:
           # Pasta que contém os arquivos do site
           path: '.'
