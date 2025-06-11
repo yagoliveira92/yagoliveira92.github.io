@@ -9,6 +9,7 @@ on:
 # Define os jobs que serão executados
 jobs:
   deploy:
+    needs: build
     permissions:
       contents: read
       pages: write
