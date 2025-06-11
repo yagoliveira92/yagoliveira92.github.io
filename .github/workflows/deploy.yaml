@@ -14,6 +14,9 @@ jobs:
       pages: write
       id-token: write
       actions: read
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     # O tipo de máquina virtual que o job irá rodar
     runs-on: ubuntu-latest
 
@@ -25,7 +28,7 @@ jobs:
 
       # 2. Configura o ambiente para usar o GitHub Pages
       - name: Configurar GitHub Pages
-        uses: actions/configure-pages@v2
+        uses: actions/configure-pages@v4
 
       # 3. Faz o upload do artefato (nossa página estática)
       - name: Upload do Artefato
