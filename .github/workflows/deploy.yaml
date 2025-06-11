@@ -8,6 +8,25 @@ on:
 
 # Define os jobs que serão executados
 jobs:
+  jobs:
+  # Build job
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Pages
+        id: pages
+        uses: actions/configure-pages@v5
+      - name: Build with Jekyll
+        uses: actions/jekyll-build-pages@v1
+        with:
+          source: ./
+          destination: ./_site
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+
+  # Deployment job
   deploy:
     permissions:
       contents: read
@@ -15,29 +34,10 @@ jobs:
       id-token: write
     environment:
       name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    # O tipo de máquina virtual que o job irá rodar
+      url: ${{steps.deployment.outputs.page_url}}
     runs-on: ubuntu-latest
-    needs: jekyll-build
-
-    # Passos que compõem o job
+    needs: build
     steps:
-      # 1. Faz o checkout do código do repositório
-      - name: Checkout do código
-        uses: actions/checkout@v3
-
-      # 2. Configura o ambiente para usar o GitHub Pages
-      - name: Configurar GitHub Pages
-        uses: actions/configure-pages@v5
-
-      # 3. Faz o upload do artefato (nossa página estática)
-      - name: Upload do Artefato
-        uses: actions/upload-artifact@v3
-        with:
-          # Pasta que contém os arquivos do site
-          path: '.'
-
-      # 4. Faz o deploy no GitHub Pages
-      - name: Deploy no GitHub Pages
+      - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
