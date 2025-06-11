@@ -1,0 +1,35 @@
+name: Deploy de Página Estática no GitHub Pages
+
+# Define o gatilho (evento) que irá acionar o workflow
+on:
+  push:
+    branches:
+      - teste-actions # Aciona o workflow em todo push para a branch main
+
+# Define os jobs que serão executados
+jobs:
+  deploy:
+    # O tipo de máquina virtual que o job irá rodar
+    runs-on: ubuntu-latest
+
+    # Passos que compõem o job
+    steps:
+      # 1. Faz o checkout do código do repositório
+      - name: Checkout do código
+        uses: actions/checkout@v3
+
+      # 2. Configura o ambiente para usar o GitHub Pages
+      - name: Configurar GitHub Pages
+        uses: actions/configure-pages@v2
+
+      # 3. Faz o upload do artefato (nossa página estática)
+      - name: Upload do Artefato
+        uses: actions/upload-pages-artifact@v1
+        with:
+          # Pasta que contém os arquivos do site
+          path: '.'
+
+      # 4. Faz o deploy no GitHub Pages
+      - name: Deploy no GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v1
